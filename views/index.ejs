@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SGC</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<h1>Sistema de Gestión de Clientes</h1>
+
+<% if (error) { %>
+    <div class="error">
+        <%= error %>
+    </div>
+<% } %>
+
+<form
+    action="<%= clienteEditar ? '/actualizar/' + clienteEditar.id : '/guardar' %>"
+    method="POST"
+>
+
+    <input
+        type="text"
+        name="nombre"
+        placeholder="Nombre"
+        value="<%= clienteEditar?.nombre || '' %>"
+    >
+
+    <input
+        type="text"
+        name="apellido"
+        placeholder="Apellido"
+        value="<%= clienteEditar?.apellido || '' %>"
+    >
+
+    <input
+        type="text"
+        name="dni"
+        placeholder="DNI"
+        value="<%= clienteEditar?.dni || '' %>"
+    >
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value="<%= clienteEditar?.email || '' %>"
+    >
+
+    <button type="submit">
+        <%= clienteEditar ? 'Actualizar' : 'Guardar' %>
+    </button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% clientes.forEach(cliente => { %>
+            <tr>
+                <td><%= cliente.nombre %></td>
+                <td><%= cliente.apellido %></td>
+                <td><%= cliente.dni %></td>
+                <td><%= cliente.email %></td>
+                <td>
+                    <a href="/?edit=<%= cliente.id %>">
+                        Editar
+                    </a>
+
+                    <form
+                        action="/eliminar/<%= cliente.id %>"
+                        method="POST"
+                        style="display:inline;"
+                    >
+                        <button type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+</body>
+</html>
